@@ -7,7 +7,7 @@ const App = () => {
 
   return (
     <Grid container style={{ height: '100vh' }} justify="center" alignItems="center" spacing={0}>
-      <Grid item sm={5}>
+      <Grid item xs={12} sm={9}>
         <Paper className={classes.paper} align="center">
             <Timer />
         </Paper>

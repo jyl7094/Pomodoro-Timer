@@ -23,6 +23,8 @@ const Timer = () => {
                 setMinutes(15);
                 break;
             default:
+                setSeconds(0);
+                setMinutes(0);
                 break;
         }
     };
@@ -37,28 +39,60 @@ const Timer = () => {
         }
     };
 
-    const updateTime = () => {
-        if (minutes === 0 && seconds === 0) {
-            setSeconds(0);
-            setMinutes(0);
-        } else {
+    // const updateTime = () => {
+    //     if (minutes === 0 && seconds === 0) {
+    //         setSeconds(0);
+    //         setMinutes(0);
+    //     } else {
+    //         if (seconds === 0) {
+    //             setMinutes(minutes => minutes - 1);
+    //             setSeconds(59);
+    //         } else {
+    //             setSeconds(seconds => seconds - 1);
+    //         }
+    //     }
+    // };
+
+    useEffect(() => {
+        let interval = setInterval(() => {
+            clearInterval(interval);
+
             if (seconds === 0) {
-                setMinutes(minutes => minutes - 1);
-                setSeconds(59);
+                if (minutes !== 0) {
+                    setSeconds(59);
+                    setMinutes(minutes - 1);
+                } else {
+                    
+                }
             } else {
-                setSeconds(seconds => seconds - 1);
+                setSeconds(seconds - 1);
             }
-        }
-    };
+        }, 1000)
+    }, [seconds])
+    // useEffect(() => {
+    //     setInterval(updateTime, 1000);
+    // }, [toggle]);
 
     return (
         <>
             <Grid container justify="center" spacing={0}>
                 <Grid item>
                     <ButtonGroup variant="text">
-                        <Button onClick={() => { setTimer('Work') }}>Working</Button>    
-                        <Button onClick={() => { setTimer('Short Break') }}>Short Break</Button>    
-                        <Button onClick={() => { setTimer('Long Break') }}>Long Break</Button>
+                        <Button onClick={() => { setTimer('Work') }}>
+                            <Typography>
+                                Working
+                            </Typography>
+                        </Button>    
+                        <Button onClick={() => { setTimer('Short Break') }}>
+                            <Typography>
+                                Short Break
+                            </Typography>
+                        </Button>    
+                        <Button onClick={() => { setTimer('Long Break') }}>
+                            <Typography>
+                                Long Break
+                            </Typography>
+                        </Button>
                     </ButtonGroup>
                 </Grid>    
                 <Grid className={classes.pad} item xs={12}>
@@ -67,8 +101,16 @@ const Timer = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                    <Button className={classes.btn_size} variant="text" onClick={() => { toggleTimer() }}>{ toggle }</Button>
-                    <Button className={toggle==='Pause'?classes.fade_In:classes.fade_Out}style={{ position: 'absolute' }}>Skip</Button>
+                    <Button className={classes.btn_size} variant="text" onClick={() => { toggleTimer() }}>
+                        <Typography>
+                            { toggle }
+                        </Typography>
+                    </Button>
+                    {toggle === "Pause" && <Button style={{ position: 'absolute' }} onClick={() => { setTimer() }}>
+                        <Typography>
+                            Skip
+                        </Typography>
+                    </Button>}
                 </Grid>
             </Grid>
         </>
